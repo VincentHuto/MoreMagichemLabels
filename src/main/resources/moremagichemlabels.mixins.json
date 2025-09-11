@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.vincenthuto.moremagichemlabels.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "moremagichemlabels.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "core.MixinMateriaVesselBlockEntityRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
