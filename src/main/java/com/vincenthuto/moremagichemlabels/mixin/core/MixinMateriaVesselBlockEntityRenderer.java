@@ -3,6 +3,7 @@ package com.vincenthuto.moremagichemlabels.mixin.core;
 import com.aranaira.magichem.block.entity.MateriaVesselBlockEntity;
 import com.aranaira.magichem.block.entity.renderer.MateriaVesselBlockEntityRenderer;
 import com.aranaira.magichem.foundation.BlockRendererCoords;
+import com.aranaira.magichem.foundation.MagiChemBlockStateProperties;
 import com.aranaira.magichem.item.AdmixtureItem;
 import com.aranaira.magichem.util.render.MateriaVesselContentsRenderUtil;
 import com.aranaira.magichem.util.render.RenderUtils;
@@ -55,56 +56,78 @@ public abstract class MixinMateriaVesselBlockEntityRenderer implements BlockEnti
         VertexConsumer buffer = bufferSource.getBuffer(RenderType.armorCutoutNoCull(InventoryMenu.BLOCK_ATLAS));
         PoseStack.Pose last = poseStack.last();
 
-        if (mvbe.getMateriaType() instanceof AdmixtureItem ai) {
-            renderVesselAdmixtureLabel(
-                    last.pose(), last.normal(), buffer, ai, mvbe.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING), packedLight
-            );
-        }
-        if(MoreMagichemLabels.renderVesselText){
-                BlockState blockState = mvbe.getBlockState();
-                Direction facing = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
-                String text = mvbe.getMateriaType().getMateriaName();
-                if (text == null || text.isEmpty()) return;
-                poseStack.pushPose();
-                poseStack.translate(0.5, 2.5, 0.5);
-                switch (facing) {
-                    case NORTH:
-                        poseStack.mulPose(Axis.YP.rotationDegrees(180));
-                        break;
-                    case SOUTH:
-                        break;
-                    case EAST:
-                        poseStack.mulPose(Axis.YP.rotationDegrees(90));
-                        break;
-                    case WEST:
-                        poseStack.mulPose(Axis.YP.rotationDegrees(-90));
-                        break;
+        if(mvbe!=null){
+            if(mvbe.getMateriaType() !=null){
+                if (mvbe.getMateriaType() instanceof AdmixtureItem ai) {
+                    renderVesselAdmixtureLabel(
+                            last.pose(), last.normal(), buffer, ai, mvbe.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING), packedLight
+                    );
                 }
+                if(MoreMagichemLabels.renderVesselText){
+                    BlockState blockState = mvbe.getBlockState();
+                    Direction facing = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
+                    String text = mvbe.getMateriaType().getMateriaName();
+                    if (text == null || text.isEmpty()) return;
+                    poseStack.pushPose();
+                    poseStack.translate(0.5, 2.5, 0.5);
+                    switch (facing) {
+                        case NORTH:
+                            poseStack.mulPose(Axis.YP.rotationDegrees(180));
+                            break;
+                        case SOUTH:
+                            break;
+                        case EAST:
+                            poseStack.mulPose(Axis.YP.rotationDegrees(90));
+                            break;
+                        case WEST:
+                            poseStack.mulPose(Axis.YP.rotationDegrees(-90));
+                            break;
+                    }
 
-                poseStack.translate(-0.1, -1.55, 0.4); // Slightly in front of the block face
+                    Font font = Minecraft.getInstance().font;
 
-                // Scale the text appropriately
-                float scale = 0.01f; // Adjust this to make text bigger/smaller
-                poseStack.scale(scale, -scale, scale); // Negative Y scale to flip text right-side up
+                    // Calculate text positioning (center it)
+                    int textWidth = font.width(text);
+                    float x = -textWidth / 4.0f;
+                    float y = -font.lineHeight / 4.0f;
 
-                Font font = Minecraft.getInstance().font;
+                    boolean stacked = blockState.getValue(MagiChemBlockStateProperties.STACKED);
 
-                // Calculate text positioning (center it)
-                int textWidth = font.width(text);
-                float x = -textWidth / 4.0f;
-                float y = -font.lineHeight / 4.0f;
+                    if(stacked){
+                        poseStack.translate(-0.1, -1.55, 0.4); // Slightly in front of the block face
+                        // Scale the text appropriately
+                        float scale = 0.01f; // Adjust this to make text bigger/smaller
+                        poseStack.scale(scale, -scale, scale); // Negative Y scale to flip text right-side up
+                        // Render the text
+                        font.drawInBatch(text.substring(0, 1).toUpperCase() + text.substring(1), x, y, 0xb97500, // Brown color
+                                false, // Drop shadow
+                                poseStack.last().pose(),
+                                bufferSource,
+                                Font.DisplayMode.NORMAL,
+                                0x7e5000 , // Background color
+                                packedLight);
+                    }else{
+                        poseStack.translate(-0.07, -1.55, 0.2); // Slightly in front of the block face
+                        // Scale the text appropriately
+                        float scale = 0.0075f; // Adjust this to make text bigger/smaller
+                        poseStack.scale(scale, -scale, scale); // Negative Y scale to flip text right-side up
+                        // Render the text
+                        font.drawInBatch(text.substring(0, 1).toUpperCase() + text.substring(1), x, y, 0xb97500, // Brown color
+                                false, // Drop shadow
+                                poseStack.last().pose(),
+                                bufferSource,
+                                Font.DisplayMode.NORMAL,
+                                0x7e5000 , // Background color
+                                packedLight);
+                    }
 
-                // Render the text
-                font.drawInBatch(text.substring(0, 1).toUpperCase() + text.substring(1), x, y, 0xb97500, // Brown color
-                        false, // Drop shadow
-                        poseStack.last().pose(),
-                        bufferSource,
-                        Font.DisplayMode.NORMAL,
-                        0x7e5000 , // Background color
-                        packedLight);
 
-                poseStack.popPose();
+
+                    poseStack.popPose();
+                }
+            }
         }
+
     }
 
     //Grainmerge on blank with 1c1200 at 100% opac to get good gradient
