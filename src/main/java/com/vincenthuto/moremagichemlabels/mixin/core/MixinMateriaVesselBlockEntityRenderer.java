@@ -5,6 +5,7 @@ import com.aranaira.magichem.block.entity.renderer.MateriaVesselBlockEntityRende
 import com.aranaira.magichem.foundation.BlockRendererCoords;
 import com.aranaira.magichem.foundation.MagiChemBlockStateProperties;
 import com.aranaira.magichem.item.AdmixtureItem;
+import com.aranaira.magichem.item.EssentiaItem;
 import com.aranaira.magichem.util.render.MateriaVesselContentsRenderUtil;
 import com.aranaira.magichem.util.render.RenderUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,6 +20,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
@@ -66,7 +68,11 @@ public abstract class MixinMateriaVesselBlockEntityRenderer implements BlockEnti
                 if(MoreMagichemLabels.renderVesselText){
                     BlockState blockState = mvbe.getBlockState();
                     Direction facing = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
-                    String text = mvbe.getMateriaType().getMateriaName();
+
+                    String text =  mvbe.getMateriaType() instanceof EssentiaItem
+                            ? "item.magichem.essentia_" + mvbe.getMateriaType().getMateriaName() + ".truncated"
+                            : "item.magichem.admixture_" +  mvbe.getMateriaType().getMateriaName() + ".truncated";
+
                     if (text == null || text.isEmpty()) return;
                     poseStack.pushPose();
                     poseStack.translate(0.5, 2.5, 0.5);
@@ -87,7 +93,7 @@ public abstract class MixinMateriaVesselBlockEntityRenderer implements BlockEnti
                     Font font = Minecraft.getInstance().font;
 
                     // Calculate text positioning (center it)
-                    int textWidth = font.width(text);
+                    int textWidth = font.width(Component.translatable(text));
                     float x = -textWidth / 4.0f;
                     float y = -font.lineHeight / 4.0f;
 
@@ -99,7 +105,7 @@ public abstract class MixinMateriaVesselBlockEntityRenderer implements BlockEnti
                         float scale = 0.01f; // Adjust this to make text bigger/smaller
                         poseStack.scale(scale, -scale, scale); // Negative Y scale to flip text right-side up
                         // Render the text
-                        font.drawInBatch(text.substring(0, 1).toUpperCase() + text.substring(1), x, y, 0xb97500, // Brown color
+                        font.drawInBatch(Component.translatable(text), x, y, 0xb97500, // Brown color
                                 false, // Drop shadow
                                 poseStack.last().pose(),
                                 bufferSource,
@@ -112,7 +118,7 @@ public abstract class MixinMateriaVesselBlockEntityRenderer implements BlockEnti
                         float scale = 0.0075f; // Adjust this to make text bigger/smaller
                         poseStack.scale(scale, -scale, scale); // Negative Y scale to flip text right-side up
                         // Render the text
-                        font.drawInBatch(text.substring(0, 1).toUpperCase() + text.substring(1), x, y, 0xb97500, // Brown color
+                        font.drawInBatch(Component.translatable(text), x, y, 0xb97500, // Brown color
                                 false, // Drop shadow
                                 poseStack.last().pose(),
                                 bufferSource,
