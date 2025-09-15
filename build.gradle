@@ -67,6 +67,7 @@ minecraft {
 mixin {
     add sourceSets.main, "moremagichemlabels.refmap.json"
 }
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
