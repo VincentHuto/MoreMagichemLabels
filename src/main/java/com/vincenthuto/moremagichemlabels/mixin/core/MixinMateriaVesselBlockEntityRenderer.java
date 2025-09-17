@@ -21,12 +21,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MateriaVesselBlockEntityRenderer.class)
+@Mixin(value=MateriaVesselBlockEntityRenderer.class,remap=false)
+@Debug(export = true)
 public abstract class MixinMateriaVesselBlockEntityRenderer implements BlockEntityRenderer<MateriaVesselBlockEntity> {
 
     public MixinMateriaVesselBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
