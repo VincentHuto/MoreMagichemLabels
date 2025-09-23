@@ -7,7 +7,8 @@
   ],
   "client": [
     "core.MixinMasterItemRenderer",
-    "core.MixinMateriaVesselBlockEntityRenderer"
+    "core.MixinMateriaVesselBlockEntityRenderer",
+    "core.MixinGuiGraphics"
   ],
   "injectors": {
     "defaultRequire": 1

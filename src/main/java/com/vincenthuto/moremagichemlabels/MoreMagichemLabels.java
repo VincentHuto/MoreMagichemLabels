@@ -56,7 +56,7 @@ public class MoreMagichemLabels
     public static final ResourceLocation LABEL_TEXTURE_VESSEL_VIOLENCE = rloc("block/decorator/jar_label_vessel-violence");
     public static final ResourceLocation LABEL_TEXTURE_WASTES_WHIMSY = rloc("block/decorator/jar_label_wastes-whimsy");
     public static final ResourceLocation LABEL_TEXTURE_WITCHCRAFT_WIZARD = rloc("block/decorator/jar_label_witchcraft-wizard");
-    public static final ResourceLocation LABEL_TEXTURE_WOOD = rloc("block/decorator/jar_label_wood");
+    public static final ResourceLocation LABEL_TEXTURE_WOOD_RADIATION = rloc("block/decorator/jar_label_wood-radiation");
 
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
