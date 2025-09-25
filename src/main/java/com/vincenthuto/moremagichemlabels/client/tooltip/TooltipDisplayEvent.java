@@ -1,4 +1,4 @@
-package com.vincenthuto.moremagichemlabels.common.event;
+package com.vincenthuto.moremagichemlabels.client.tooltip;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;

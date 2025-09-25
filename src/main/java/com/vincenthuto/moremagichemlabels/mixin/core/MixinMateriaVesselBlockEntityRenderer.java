@@ -8,6 +8,7 @@ import com.aranaira.magichem.item.EssentiaItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import com.vincenthuto.moremagichemlabels.ClientConfig;
 import com.vincenthuto.moremagichemlabels.MoreMagichemLabels;
 import com.vincenthuto.moremagichemlabels.MoreMateriaVesselContentsRenderUtil;
 import net.minecraft.client.Minecraft;
@@ -55,7 +56,7 @@ public abstract class MixinMateriaVesselBlockEntityRenderer implements BlockEnti
                             last.pose(), last.normal(), buffer, ai, mvbe.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING), packedLight
                     );
                 }
-                if(MoreMagichemLabels.renderVesselText){
+                if(ClientConfig.renderVesselText){
                     BlockState blockState = mvbe.getBlockState();
                     Direction facing = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
 

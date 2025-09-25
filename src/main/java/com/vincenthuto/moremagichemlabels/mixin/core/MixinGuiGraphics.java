@@ -1,6 +1,6 @@
 package com.vincenthuto.moremagichemlabels.mixin.core;
 
-import com.vincenthuto.moremagichemlabels.common.event.TooltipDisplayEvent;
+import com.vincenthuto.moremagichemlabels.client.tooltip.TooltipDisplayEvent;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;

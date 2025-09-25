@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "moremagichemlabels.refmap.json",
   "mixins": [
+    "core.MixinHardcodedSpellIconList"
   ],
   "client": [
     "core.MixinMasterItemRenderer",

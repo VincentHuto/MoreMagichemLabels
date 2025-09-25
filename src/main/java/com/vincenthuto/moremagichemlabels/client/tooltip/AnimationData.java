@@ -1,10 +1,8 @@
-package com.vincenthuto.moremagichemlabels.common.event;
+package com.vincenthuto.moremagichemlabels.client.tooltip;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.ArrayList;
 
 public class AnimationData {
     public List<Pair<Integer, Integer>> getFrames() {

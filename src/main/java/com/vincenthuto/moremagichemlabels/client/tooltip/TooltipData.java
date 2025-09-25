@@ -1,4 +1,4 @@
-package com.vincenthuto.moremagichemlabels.common.event;
+package com.vincenthuto.moremagichemlabels.client.tooltip;
 
 public class TooltipData {
 
