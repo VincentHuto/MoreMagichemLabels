@@ -67,18 +67,6 @@ public class ClientEventHandler {
             int x = event.getX();
             int y = event.getY();
 
-            int texWidth = GlStateManager._getTexLevelParameter(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
-            int texHeight = GlStateManager._getTexLevelParameter(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
-
-            if (texHeight == 0 || texWidth == 0)
-                return;
-
-            int patternWidth = 160;
-            int patternHeight = 64;
-            int frame = 0;
-
-            if (materiaItem instanceof EssentiaItem)
-                frame = AnimationData.construct(texHeight, patternHeight, 2).getFrameByTime(player.tickCount).getKey();
 
             ResourceLocation texture = ResourceUtil.CHIMERITE_FRAME;
             if (materiaItem instanceof AdmixtureItem admixtureItem) {
@@ -111,7 +99,17 @@ public class ClientEventHandler {
             poseStack.translate(0, 0, 410.0);
 
 
+            int texWidth = GlStateManager._getTexLevelParameter(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
+            int texHeight = GlStateManager._getTexLevelParameter(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
+
+            if (texHeight == 0 || texWidth == 0)
+                return;
+
+            int patternWidth = 160;
+            int patternHeight = 64;
+            int frame = AnimationData.construct(texHeight, patternHeight, 2).getFrameByTime(player.tickCount).getKey();
             int offset = patternHeight * frame;
+
             // === CORNERS ===
             // Top-left corner
             graphics.blit(texture, x - cornerWidth / 2 - 3, y - cornerHeight / 2 - 3,
