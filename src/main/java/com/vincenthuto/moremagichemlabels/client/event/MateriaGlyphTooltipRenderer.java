@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
+import org.apache.commons.lang3.tuple.Pair;
 import org.joml.Matrix4f;
 
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class MateriaGlyphTooltipRenderer implements ClientTooltipComponent {
 
             matrix4f.scale(0.5f);
             font.drawInBatch(Component.literal(countText),
-                    2 * (pX + glyphCenter) - textWidth+4,
+                    2 * (pX + glyphCenter) - textWidth + 4,
                     2 * pY + 14, // Slightly lower for better appearance
                     0xAABBCC, true, matrix4f, bufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
             matrix4f.scale(2f);
@@ -135,7 +136,7 @@ public class MateriaGlyphTooltipRenderer implements ClientTooltipComponent {
                     if (materiaItem instanceof EssentiaItem ei || materiaItem instanceof AdmixtureItem ai) {
                         matrix4f.scale(0.5f);
                         font.drawInBatch(Component.literal(countText),
-                                2 * (pX + glyphCenter+4) - textWidth*1.25f,
+                                2 * (pX + glyphCenter + 4) - textWidth * 1.25f,
                                 2 * pY + 14, // Slightly lower for better appearance
                                 0xAABBCC, true, matrix4f, bufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
                         matrix4f.scale(2f);
@@ -196,13 +197,13 @@ public class MateriaGlyphTooltipRenderer implements ClientTooltipComponent {
                             rl = ResourceLocation.
                                     fromNamespaceAndPath(MagiChemMod.MODID, "textures/" + materiaLocation.getPath() + ".png");
                             graphics.blit(rl,
-                                    xPos, pY, 0, castU, (int)v, textureWidth, 8, 16, 16);
+                                    xPos, pY, 0, castU, (int) v, textureWidth, 8, 16, 16);
                         }
                         if (materiaItem instanceof AdmixtureItem ai) {
                             rl = ResourceLocation.
                                     fromNamespaceAndPath(MoreMagichemLabels.MODID, "textures/" + materiaLocation.getPath() + ".png");
                             graphics.blit(rl,
-                                    xPos, pY, 0, castU, (int)v, textureWidth, 8, 16, 16);
+                                    xPos, pY, 0, castU, (int) v, textureWidth, 8, 16, 16);
                         }
                     }
                 }
@@ -212,5 +213,60 @@ public class MateriaGlyphTooltipRenderer implements ClientTooltipComponent {
 
     public record MateriaGlyphTooltipComponent(ItemStack stack
     ) implements TooltipComponent {
+    }
+
+    public static class AnimationData {
+        private final List<Pair<Integer, Integer>> frames = new ArrayList<>();
+
+        public static AnimationData builder() {
+            return new AnimationData();
+        }
+
+        public static AnimationData construct(int texHeight, int patternHeight, int frameTime) {
+            AnimationData data = builder();
+
+            for (int i = 0; i < texHeight / patternHeight; i++) {
+                data.frame(i, frameTime);
+            }
+
+            return data;
+        }
+
+        public List<Pair<Integer, Integer>> getFrames() {
+            return frames;
+        }
+
+        public int getLength() {
+            int time = 0;
+
+            for (Pair<Integer, Integer> pair : frames)
+                time += pair.getRight();
+
+            return time;
+        }
+
+        public Pair<Integer, Integer> getFrameByTime(long time) {
+            int frames = getFrames().size();
+
+            long remainder = time % getLength();
+
+            int index = 0;
+
+            while (remainder > 0) {
+                Pair<Integer, Integer> pair = getFrames().get(index);
+
+                remainder -= pair.getRight();
+
+                index = index + 1 >= frames ? 0 : index + 1;
+            }
+
+            return getFrames().get(index);
+        }
+
+        public AnimationData frame(int index, int time) {
+            frames.add(Pair.of(index, time));
+
+            return this;
+        }
     }
 }

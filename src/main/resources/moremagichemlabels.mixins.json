@@ -4,12 +4,11 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "moremagichemlabels.refmap.json",
   "mixins": [
-    "core.MixinHardcodedSpellIconList"
   ],
   "client": [
+    "core.MixinGuiGraphics",
     "core.MixinMasterItemRenderer",
-    "core.MixinMateriaVesselBlockEntityRenderer",
-    "core.MixinGuiGraphics"
+    "core.MixinMateriaVesselBlockEntityRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

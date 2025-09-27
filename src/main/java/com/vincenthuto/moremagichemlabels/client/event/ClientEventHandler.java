@@ -1,7 +1,6 @@
 package com.vincenthuto.moremagichemlabels.client.event;
 
 import com.aranaira.magichem.item.AdmixtureItem;
-import com.aranaira.magichem.item.EssentiaItem;
 import com.aranaira.magichem.item.MateriaItem;
 import com.aranaira.magichem.recipe.DistillationFabricationRecipe;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -11,7 +10,6 @@ import com.mojang.datafixers.util.Either;
 import com.vincenthuto.moremagichemlabels.ClientConfig;
 import com.vincenthuto.moremagichemlabels.MoreMagichemLabels;
 import com.vincenthuto.moremagichemlabels.ResourceUtil;
-import com.vincenthuto.moremagichemlabels.client.tooltip.AnimationData;
 import com.vincenthuto.moremagichemlabels.client.tooltip.TooltipDisplayEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -31,6 +29,7 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = MoreMagichemLabels.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientEventHandler {
+
 
     @SubscribeEvent
     public static void GatherTooltipComponents(RenderTooltipEvent.GatherComponents e) {
@@ -107,7 +106,7 @@ public class ClientEventHandler {
 
             int patternWidth = 160;
             int patternHeight = 64;
-            int frame = AnimationData.construct(texHeight, patternHeight, 2).getFrameByTime(player.tickCount).getKey();
+            int frame = MateriaGlyphTooltipRenderer.AnimationData.construct(texHeight, patternHeight, 2).getFrameByTime(player.tickCount).getKey();
             int offset = patternHeight * frame;
 
             // === CORNERS ===
@@ -221,7 +220,6 @@ public class ClientEventHandler {
         public static void onRegisterClientTooltipComponentFactories(RegisterClientTooltipComponentFactoriesEvent event) {
             event.register(MateriaGlyphTooltipRenderer.MateriaGlyphTooltipComponent.class, MateriaGlyphTooltipRenderer::new);
         }
-
     }
 
 }
